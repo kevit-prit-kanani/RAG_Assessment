@@ -1,0 +1,28 @@
+[project]
+name = "rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "kevit-prit-kanani", email = "prit.kanani@kevit.io" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.142.2",
+    "langfuse>=4.17.0",
+    "litellm>=1.104.0",
+    "pydantic-settings>=2.15.0",
+    "pymongo>=4.18.2",
+    "pymupdf>=1.28.2",
+    "python-dotenv>=1.2.4",
+    "tiktoken>=0.14.0",
+    "unstructured[pdf]>=0.27.16",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+src = "src.rag.main:app"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
