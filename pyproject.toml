@@ -15,6 +15,7 @@ dependencies = [
     "pymongo>=4.18.2",
     "pymupdf>=1.28.2",
     "python-dotenv>=1.2.4",
+    "python-multipart>=0.0.32",
     "tiktoken>=0.14.0",
     "unstructured[pdf]>=0.27.16",
     "uvicorn>=0.54.0",

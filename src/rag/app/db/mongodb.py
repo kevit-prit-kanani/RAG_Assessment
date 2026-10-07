@@ -21,15 +21,25 @@ class MongoDB:
 db = MongoDB(Settings())
 
 
-def ensure_vector_index():
-    existing_indexes = db.chunks.list_search_indexes()
+async def ensure_vector_index():
+
+    # Make sure collection exists first
+    collection_names = await db.db.list_collection_names()
+
+    if db.settings.mongodb_chunks_collection not in collection_names:
+        await db.db.create_collection(db.settings.mongodb_chunks_collection)
+
+    # Check existing search/vector indexes
+    cursor = await db.chunks.list_search_indexes()
+    existing_indexes = await cursor.to_list()
 
     if any(
         index["name"] == db.settings.mongodb_vector_index for index in existing_indexes
     ):
         return
 
-    db.chunks.create_search_index(
+    # Create vector index
+    await db.chunks.create_search_index(
         {
             "name": db.settings.mongodb_vector_index,
             "type": "vectorSearch",
@@ -45,8 +55,10 @@ def ensure_vector_index():
             },
         }
     )
-def store_embeddings(documents):
-    ensure_vector_index()
+
+
+async def store_embeddings(documents):
+    await ensure_vector_index()
     if not documents:
         return
-    db.insert_many(documents)
+    await db.chunks.insert_many(documents)

@@ -1,16 +1,19 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+from src.app import app
 from src.rag.app.db.mongodb import db
 
-app = FastAPI()
+main = FastAPI()
+
+main.include_router(app)
 
 
-@app.get("/")
+@main.get("/")
 def read_root():
     return RedirectResponse(url="/docs")
 
 
-@app.get("/get_db_ping")
+@main.get("/get_db_ping")
 async def get_db_pint():
     return await db.ping()
