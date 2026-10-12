@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.7
+
 FROM python:3.14-slim
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -9,7 +11,6 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# System dependencies for PDF parsing and OCR.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libmagic1 \
@@ -22,12 +23,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml uv.lock ./
-COPY .python-version README.md ./
+# Copy dependency manifests first for better layer caching.
+COPY pyproject.toml uv.lock .python-version README.md ./
+
+# Store UV's download/build cache outside the image layer.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project
+
 COPY src ./src
 COPY main.py ./main.py
 
-RUN uv sync --locked
+# Install the local project using the existing dependency cache.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
 
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/src"
