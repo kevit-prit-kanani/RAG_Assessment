@@ -33,8 +33,8 @@ class Settings(BaseSettings):
     mongodb_text_index: str = Field(
         default="chunk_text_index", alias="MONGODB_SEARCH_INDEX"
     )
-    langfuse_secrete_key: str = Field(
-        default="langfuse_secrete_key", alias="LANGFUSE_SECRET_KEY"
+    langfuse_secret_key: str = Field(
+        default="langfuse_secret_key", alias="LANGFUSE_SECRET_KEY"
     )
     langfuse_public_key: str = Field(
         default="langfuse_public_key", alias="LANGFUSE_PUBLIC_KEY"
