@@ -1,3 +1,4 @@
+import os
 from typing import Annotated
 
 import litellm
@@ -10,6 +11,11 @@ from rag.app.schemas.chat import GroundedAnswer, RouteDecision
 
 def config_litellm(settings: Annotated[dict, Depends(get_settings)]) -> None:
     settings.require_langfuse()
+    litellm.callbacks = ["langfuse_otel"]
+    os.environ["LANGFUSE_PUBLIC_KEY"] = settings.langfuse_public_key
+    os.environ["LANGFUSE_SECRET_KEY"] = settings.langfuse_secret_key
+    os.environ["LANGFUSE_OTEL_HOST"] = settings.langfuse_base_url.rstrip("/")
+
     litellm.callbacks = ["langfuse_otel"]
 
 

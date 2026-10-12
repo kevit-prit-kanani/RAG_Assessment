@@ -1,10 +1,21 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+from rag.app.core.config import get_settings
+from rag.app.core.llm import config_litellm
 from src.app import app
 from src.rag.app.db.mongodb import db
 
-main = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    config_litellm(get_settings())
+    yield
+
+
+main = FastAPI(lifespan=lifespan)
 
 main.include_router(app)
 

@@ -53,14 +53,11 @@ class Settings(BaseSettings):
             raise RuntimeError("MONGODB_URI is not configured")
         return self.mongodb_uri
 
-    def require_langfuse(self) -> str:
-        if not (
-            self.langfuse_base_url
-            and self.langfuse_public_key
-            and self.langfuse_secrete_key
-        ):
-            raise RuntimeError("Langfuse Keys not configured properly")
-        return self.langfuse_base_url
+    def require_langfuse(self) -> None:
+        if not self.langfuse_public_key or not self.langfuse_secret_key:
+            raise RuntimeError(
+                "LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY must be configured"
+            )
 
 
 def get_settings() -> Settings:
