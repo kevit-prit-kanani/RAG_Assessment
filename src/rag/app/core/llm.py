@@ -106,6 +106,8 @@ async def route_query(
             conversation_id,
             "rag-router",
         ),
+        api_base=settings.litellm_proxy_api_base,
+        api_key=settings.litellm_proxy_api_key,
     )
 
     content = result.choices[0].message.content
@@ -239,6 +241,8 @@ async def generate_grounded_answer(
             conversation_id,
             "rag-grounded-answer",
         ),
+        api_base=settings.litellm_proxy_api_base,
+        api_key=settings.litellm_proxy_api_key,
     )
 
     content = result.choices[0].message.content

@@ -58,8 +58,10 @@ async def chat_endpoint(
                     "session_id": conversation_id,
                     "generation_name": "rag-query-embedding",
                 },
+                api_base=settings.litellm_proxy_api_base,
+                api_key=settings.litellm_proxy_api_key,
             )
-            
+
             query_vectors = [item["embedding"] for item in embedding_response.data]
 
         # Stage 3: Keyword + vector search + RRF reranking.

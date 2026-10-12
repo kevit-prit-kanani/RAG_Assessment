@@ -1,0 +1,55 @@
+include:
+  - path: ../../../litellm-proxy/docker-compose.quickstart.yml
+
+services:
+  rag-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    env_file:
+      - .env
+
+    environment:
+      # Use Docker service discovery, not localhost.
+      LITELLM_PROXY_API_BASE: http://litellm:4000
+      PYTHONPATH: /app/src
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      litellm:
+        condition: service_started
+
+    volumes:
+      # Development mounts: code changes are reflected in the container.
+      - ./src:/app/src
+      - ./main.py:/app/main.py
+      - ./PDF:/app/PDF
+
+    command:
+      - sh
+      - -c
+      - |
+        echo "Waiting for LiteLLM Proxy..."
+        ready=0
+        attempt=0
+
+        while [ "$$attempt" -lt 60 ]; do
+          if python -c "import urllib.request; urllib.request.urlopen('http://litellm:4000/health/readiness', timeout=2)" >/dev/null 2>&1; then
+            ready=1
+            break
+          fi
+
+          attempt=$$((attempt + 1))
+          sleep 2
+        done
+
+        if [ "$$ready" -ne 1 ]; then
+          echo "ERROR: LiteLLM did not become ready within 120 seconds."
+          exit 1
+        fi
+
+        echo "LiteLLM is ready. Starting FastAPI..."
+        exec uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload

@@ -42,6 +42,14 @@ class Settings(BaseSettings):
     langfuse_base_url: str = Field(
         default="langfuse_base_url", alias="LANGFUSE_BASE_URL"
     )
+    litellm_proxy_api_base: str = Field(
+        default="http://localhost:4000",
+        alias="LITELLM_PROXY_API_BASE",
+    )
+    litellm_proxy_api_key: str | None = Field(
+        default=None,
+        alias="LITELLM_PROXY_API_KEY",
+    )
 
     def require_openai(self) -> str:
         if not self.openai_api_key:
