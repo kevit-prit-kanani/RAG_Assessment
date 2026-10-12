@@ -34,7 +34,7 @@ async def preview(file: UploadFile):
     return {
         "filename": file.filename,
         "count": len(documents),
-        "documents": documents[0:1],
+        "documents": documents[:1],
     }
 
 

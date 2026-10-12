@@ -30,10 +30,19 @@ class Settings(BaseSettings):
         default="chunk_vector_index", alias="MONGODB_VECTOR_INDEX"
     )
     mongodb_vector_dimensions: int = Field(
-        default="chunk_vector_dimensions", alias="MONGODB_VECTOR_DIMENSIONS"
+        default=3072, alias="MONGODB_VECTOR_DIMENSIONS"
     )
-    mongodb_search_index: str = Field(
+    mongodb_text_index: str = Field(
         default="chunk_text_index", alias="MONGODB_SEARCH_INDEX"
+    )
+    langfuse_secrete_key: str = Field(
+        default="langfuse_secrete_key", alias="LANGFUSE_SECRET_KEY"
+    )
+    langfuse_public_key: str = Field(
+        default="langfuse_public_key", alias="LANGFUSE_PUBLIC_KEY"
+    )
+    langfuse_base_url: str = Field(
+        default="langfuse_base_url", alias="LANGFUSE_BASE_URL"
     )
 
     def require_openai(self) -> str:
@@ -46,7 +55,17 @@ class Settings(BaseSettings):
             raise RuntimeError("MONGODB_URI is not configured")
         return self.mongodb_uri
 
+    def require_langfuse(self) -> str:
+        if not (
+            self.langfuse_base_url
+            and self.langfuse_public_key
+            and self.langfuse_secrete_key
+        ):
+            raise RuntimeError("Langfuse Keys not configured properly")
+        return self.langfuse_base_url
+
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    settings = Settings()
+    return settings
