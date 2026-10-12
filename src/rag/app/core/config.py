@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -65,7 +63,6 @@ class Settings(BaseSettings):
         return self.langfuse_base_url
 
 
-@lru_cache
 def get_settings() -> Settings:
     settings = Settings()
     return settings
