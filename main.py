@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from rag.app.core.config import get_settings
@@ -18,6 +19,13 @@ async def lifespan(app: FastAPI):
 main = FastAPI(lifespan=lifespan)
 
 main.include_router(app)
+main.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # restrict in production to your actual origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @main.get("/")

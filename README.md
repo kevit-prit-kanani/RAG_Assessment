@@ -133,6 +133,20 @@ development. To stop the services:
 docker compose down
 ```
 
+## Run the API from the Dockerfile
+
+Build and start the API without Compose:
+
+```bash
+docker build -t rag .
+docker run --rm --env-file .env -p 8000:8000 rag
+```
+
+Open `http://localhost:8000/docs` in a browser. The container listens on
+`0.0.0.0` so Docker can forward its port; `0.0.0.0` is not the browser URL.
+`--env-file` passes the settings into the container, so mounting `.env` into
+`/app/.env` is not necessary.
+
 ## API usage
 
 Open `http://localhost:8000/docs` to try the endpoints interactively.

@@ -20,9 +20,18 @@ dependencies = [
     "python-dotenv>=1.2.4",
     "python-multipart>=0.0.32",
     "tiktoken>=0.14.0",
+    "torch>=2.14.1",
     "unstructured[pdf]>=0.27.16",
     "uvicorn>=0.54.0",
 ]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [project.scripts]
 src = "main:main"
