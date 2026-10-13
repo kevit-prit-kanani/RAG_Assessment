@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsm6 \
     libxext6 \
     libxrender1 \
+    libxcb1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency manifests first for better layer caching.
