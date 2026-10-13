@@ -64,23 +64,23 @@ cp .env.example .env
 
 Edit `.env` and provide real values for the following:
 
-| Variable | Purpose |
-| --- | --- |
-| `OPENAI_API_KEY` | Model-provider credential, if required by the configured LiteLLM provider |
-| `OPENAI_EMBEDDING_MODEL` | Embedding model used for PDF and query embeddings |
-| `OPENAI_EMBEDDING_DIMENSIONS` | Embedding vector size; must match the MongoDB vector index |
-| `OPENAI_CHAT_MODEL` | Chat model configured in LiteLLM |
-| `MONGODB_URI` | MongoDB connection string |
-| `MONGODB_DB` | Database name |
-| `MONGODB_CHUNKS_COLLECTION` | Collection where chunks and embeddings are stored |
-| `MONGODB_VECTOR_INDEX` | MongoDB Vector Search index name |
-| `MONGODB_VECTOR_DIMENSIONS` | Vector index dimensions; keep consistent with the embedding model |
-| `MONGODB_SEARCH_INDEX` | MongoDB Atlas Search text index name |
-| `LANGFUSE_SECRET_KEY` | Langfuse secret key |
-| `LANGFUSE_PUBLIC_KEY` | Langfuse public key |
-| `LANGFUSE_BASE_URL` | Langfuse server URL |
-| `LITELLM_PROXY_API_BASE` | LiteLLM Proxy URL |
-| `LITELLM_PROXY_API_KEY` | Virtual key accepted by the LiteLLM Proxy |
+| Variable                      | Purpose                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| `OPENAI_API_KEY`              | Model-provider credential, if required by the configured LiteLLM provider |
+| `OPENAI_EMBEDDING_MODEL`      | Embedding model used for PDF and query embeddings                         |
+| `OPENAI_EMBEDDING_DIMENSIONS` | Embedding vector size; must match the MongoDB vector index                |
+| `OPENAI_CHAT_MODEL`           | Chat model configured in LiteLLM                                          |
+| `MONGODB_URI`                 | MongoDB connection string                                                 |
+| `MONGODB_DB`                  | Database name                                                             |
+| `MONGODB_CHUNKS_COLLECTION`   | Collection where chunks and embeddings are stored                         |
+| `MONGODB_VECTOR_INDEX`        | MongoDB Vector Search index name                                          |
+| `MONGODB_VECTOR_DIMENSIONS`   | Vector index dimensions; keep consistent with the embedding model         |
+| `MONGODB_SEARCH_INDEX`        | MongoDB Atlas Search text index name                                      |
+| `LANGFUSE_SECRET_KEY`         | Langfuse secret key                                                       |
+| `LANGFUSE_PUBLIC_KEY`         | Langfuse public key                                                       |
+| `LANGFUSE_BASE_URL`           | Langfuse server URL                                                       |
+| `LITELLM_PROXY_API_BASE`      | LiteLLM Proxy URL                                                         |
+| `LITELLM_PROXY_API_KEY`       | Virtual key accepted by the LiteLLM Proxy                                 |
 
 Use the model names and credentials configured by your LiteLLM Proxy. The
 Compose service sets `LITELLM_PROXY_API_BASE` to `http://litellm:4000` for
@@ -212,4 +212,10 @@ omits ignored files such as `.env`, `.venv/`, Python bytecode, and `logs/`.
 │           └── schemas/
 │               └── chat.py
 └── uv.lock
+```
+
+### Golden Dataset
+
+```link
+https://docs.google.com/spreadsheets/d/1ZQYzO-VY232Oph9RqVVdaDPKqMha52qXq5RYK-McC5U/edit?usp=sharing
 ```
