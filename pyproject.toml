@@ -11,6 +11,7 @@ dependencies = [
     "fastapi[standard]>=0.142.2",
     "langfuse>=4.17.0",
     "litellm[proxy]>=1.104.0",
+    "opencv-python-headless==4.14.0.94",
     "opentelemetry-api>=1.45.1",
     "opentelemetry-exporter-otlp>=1.45.1",
     "opentelemetry-sdk>=1.45.1",
@@ -39,3 +40,9 @@ src = "main:main"
 [build-system]
 requires = ["uv_build>=0.12.9,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv]
+exclude-dependencies = [
+    "opencv-python",
+    "opencv-contrib-python",
+]
